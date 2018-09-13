@@ -1,0 +1,74 @@
+<?php 
+require_once "products.php";
+
+session_start();
+	
+//Bước 1: Lấy ra danh sách người dùng chọn
+$products = $_SESSION['cart'];
+//Bước 2: In ra danh sách sp
+$name = $sdt = $email = $diachi = "";
+	
+ ?>
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Bootstrap Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<div class="container">
+  <h2>Thông tin khách hàng</h2>
+  <div class="container">
+    <p>
+      Tên khách hàng: <?php echo $hoten; ?><br>
+      Phone khách hàng: <?php echo $sdt; ?><br>
+      Email khách hàng: <?php echo $email; ?><br>
+      Địa chỉ khách hàng: <?php echo $diachi; ?><br>
+    </p>
+  </div>
+  <h2>Danh sách sản phẩm trong giỏ hàng</h2>
+   <div class="container">
+     <table class="table">
+    <thead>
+      <tr>
+        <th>Mã sản phẩm</th>
+        <th>Tên sản phẩm</th>
+        <th>Đơn giá</th>
+        <th>Số lượng</th>
+        <th style="text-align: center;">Thành tiền</th>
+        <!-- <th>Hành động</th> -->
+      </tr>
+    </thead>
+    <tbody>
+      <?php 
+      $tong_tien=0;
+      foreach( $products as $product )  {
+      	$tong_tien += $product['SoLuong']*$product['GiaBan'];
+       ?>
+      <tr>
+        <td><?= $product['MaSP'] ?></td>
+        <td><?= $product['TenSP'] ?></td>
+        <td><?= number_format( $product['GiaBan']) ?> VNĐ</td>
+        <td><?= $product['SoLuong'] ?></td>
+        <td align="right"><?= number_format($product['SoLuong']*$product['GiaBan']) ?> VNĐ</td>
+        <!-- <td><a class="btn btn-info" href="add2cart.php?MaSP=<?= $product['MaSP'] ?>">Xóa</a></td> -->
+      </tr>
+
+    <?php } ?>
+    <tr>
+    	<td colspan="4" align="center"><b>Tổng tiền</b></td>
+    	<td colspan="1" align="right"><?= number_format($tong_tien) ?> VNĐ</td>
+    </tr>
+    </tbody>
+  </table>
+   </div>        
+  
+</div>
+
+</body>
+</html>
